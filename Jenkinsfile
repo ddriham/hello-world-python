@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('checkout') {
       steps {
-        git(url: 'https://github.com/ddriham/hello-world-python/tree/master', branch: 'master')
+        git(url: 'https://github.com/ddriham/hello-world-python.git', branch: 'master')
       }
     }
 
@@ -29,10 +29,11 @@ pipeline {
 
     stage('push to dockerhub') {
       steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]){
         sh 'docker login'
         sh 'docker push hello-world-python:$BUILD_NUMBER'
+        }
       }
     }
-
   }
 }
