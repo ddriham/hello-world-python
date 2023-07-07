@@ -31,7 +31,7 @@ pipeline {
       steps {
         withCredentials(bindings: [usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
           sh 'docker login'
-          sh 'docker push hello-world-python:$BUILD_NUMBER'
+          sh 'docker push ddriham/hello-world-python:$BUILD_NUMBER'
         }
 
       }
