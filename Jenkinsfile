@@ -13,8 +13,19 @@ pipeline {
     }
 
     stage('build') {
-      steps {
-        sh 'docker build -t ddriham/hello-world-python:$BUILD_NUMBER .'
+      parallel {
+        stage('build') {
+          steps {
+            sh 'docker build -t ddriham/hello-world-python:$BUILD_NUMBER .'
+          }
+        }
+
+        stage('Hello') {
+          steps {
+            echo 'Hello form Chuck Norris'
+          }
+        }
+
       }
     }
 
@@ -28,12 +39,29 @@ pipeline {
     }
 
     stage('push to dockerhub') {
-      steps {
-        withCredentials(bindings: [usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
-          sh 'docker login'
-          sh 'docker push ddriham/hello-world-python:$BUILD_NUMBER'
+      parallel {
+        stage('push to dockerhub') {
+          steps {
+            withCredentials(bindings: [usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
+              sh 'docker login'
+              sh 'docker push ddriham/hello-world-python:$BUILD_NUMBER'
+            }
+
+          }
         }
 
+        stage('Chuck Norris') {
+          steps {
+            chuckNorris()
+          }
+        }
+
+      }
+    }
+
+    stage('Clean Workspace') {
+      steps {
+        cleanWs(cleanWhenFailure: true, cleanWhenSuccess: true, cleanWhenAborted: true, cleanWhenNotBuilt: true)
       }
     }
 
