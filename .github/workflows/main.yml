@@ -17,7 +17,7 @@ jobs:
         run: python3 app.py &
         
       - name: test
-        run: sleep 5 && curl localhost:8008
+        run: sleep 5 && curl localhost:8080
         
      
 
