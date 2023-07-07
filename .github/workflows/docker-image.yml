@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: docker push
-      run: docker push lidorlg/github-repo:latest
+      run: docker push ddriham/github-action-hello:latest
       
    
 
