@@ -13,5 +13,12 @@ jobs:
       - name: pip came to town
         run: pip install -r requirements.txt
     
+      - name: run forest run
+        run: python3 app.py &
+        
+      - name: test
+        run: sleep 5 && curl localhost:8008
+        
+     
 
   
